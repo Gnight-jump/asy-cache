@@ -1,36 +1,34 @@
 # asy-cache-client
 
-#### Description
-分布式缓存客户端demo
+#### Introduce
+Example asy-cache client demo
 
-#### Software Architecture
-Software architecture description
+#### Software architecture
+Example asy-cache client:
 
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+    1. Configure the service center
+    
+    2. Fetch the node diagram of the service center regularly
+    
+    3. If it cannot be connected according to the node diagram, it will be postponed and take the initiative to fetch a new one
 
 
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+#### Direction for use
+```go
+// Designated Service Center
+client.CenterPath = "http://localhost:8000"
+cli := client.New() // New Client
+// Set key value pairs
+err := cli.Set("example", "x")
+if err != nil {
+    fmt.Println("can't set kv")
+}
+// Gets the key-value pair
+fmt.Println("get =", cli.Get("example"))
+// Delete key-value pairs
+err = cli.Del("example")
+if err != nil {
+    fmt.Println("can't del kv")
+}
+fmt.Println("get =", cli.Get("example"))
+```
