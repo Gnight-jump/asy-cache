@@ -10,7 +10,7 @@ Example asy-cache client:
     
     2. Fetch the node diagram of the service center regularly
     
-    3. If it cannot be connected according to the node diagram, it will be postponed and take the initiative to fetch a new one
+    3. According to the node graph query, failure to return a prompt, and actively pull the new
 
 
 #### Direction for use
