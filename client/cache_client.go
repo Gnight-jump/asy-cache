@@ -23,8 +23,7 @@ type Hash func(data []byte) uint32
 
 // 默认使用crc32算法
 var (
-	curHash    Hash   = crc32.ChecksumIEEE
-	CenterPath string = ""
+	curHash Hash = crc32.ChecksumIEEE
 
 	// 错误显示
 	NoCache    = errors.New("No cache found")
@@ -35,16 +34,18 @@ var (
 
 // ClientMap 使用map存储所有节点信息
 type ClientMap struct {
+	CenterPath   string         // 服务中心
 	Keys         []int          // 存储节点信息（map的key）
 	NodeMap      map[int]string // 存储整体哈希值
 	sync.RWMutex                // 读写锁
 }
 
 // 新建hash
-func New() *ClientMap {
+func New(centerPath string) *ClientMap {
 	m := &ClientMap{
-		Keys:    make([]int, 0),
-		NodeMap: make(map[int]string),
+		CenterPath: centerPath,
+		Keys:       make([]int, 0),
+		NodeMap:    make(map[int]string),
 	}
 	// 定时任务
 	m.FreshMap()
@@ -72,9 +73,9 @@ func (m *ClientMap) FreshMap() {
 		}
 	}()
 
-	resp, err := http.PostForm(CenterPath+"/getMap", url.Values{})
+	resp, err := http.PostForm(m.CenterPath+"/getMap", url.Values{})
 	if err != nil {
-		log.Println("[LOG_FreshMap] connect", CenterPath+"/getMap", "failed")
+		log.Println("[LOG_FreshMap] connect", m.CenterPath+"/getMap", "failed")
 		m.FreshMap()
 	}
 
@@ -95,7 +96,7 @@ func (m *ClientMap) FreshMap() {
 }
 
 // 获取key下的value "/get"
-func (m *ClientMap) Get(key string) (result string) {
+func (m *ClientMap) Get(key string) (result interface{}) {
 	v := ""
 	// 寻找对应url
 	if v = m.getUrl(key); v == "" {

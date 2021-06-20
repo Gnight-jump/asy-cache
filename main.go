@@ -7,8 +7,7 @@ import (
 
 func main() {
 	// 指定服务中心
-	client.CenterPath = "http://localhost:8000"
-	cli := client.New()
+	cli := client.New("http://localhost:8000")
 	err := cli.Set("example", "x")
 	if err != nil {
 		fmt.Println("can't set kv")

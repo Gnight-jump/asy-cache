@@ -26,7 +26,7 @@ func JsonToTmpMap(jsonStr string) (*TmpMap, error) {
 }
 
 // 解析获得value
-func UnmarshalToValue(resp *http.Response) (result string) {
+func UnmarshalToValue(resp *http.Response) (result interface{}) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
